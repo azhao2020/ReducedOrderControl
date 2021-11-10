@@ -93,7 +93,7 @@ Bo = B;
 z0 = a;
 B = [B,x_o/z0];                                        % x_o/z0 is a unit vector
 
-% Controllability check
+% Balanced system
 p = 4;
 q = 12;
 C = [eye(p),zeros(p,q)];
@@ -128,22 +128,3 @@ A1(idx) = -A1(idx);
 poles = 100*[A1(3:4);A1(3:4)];
 L = place(A_r',C_r',poles)';
 eig(A_r-L*C_r);
-
-%=========================================================%
-% Run 'Model_Reduction_Scaling_Observer_Stable' Simulink model
-% Control design process
-%=========================================================%
-simOut = sim('Model_Reduction_Scaling_Observer_Stable','SimulationMode','normal',...
-            'SaveState','on',...
-            'SaveOutput','on',...
-            'SaveFormat', 'Dataset');
-u = simOut.get('ControlClosedLoop');
-y_o_u0 = simOut.get('OriginalOutput');
-y_r_u0 = simOut.get('ReducedOutput');
-x_o_u0 = simOut.get('OriginalStateFree');
-x_r_u0 = simOut.get('ReducedStateFree');
-y_o_u = simOut.get('y_ori');
-x_o_u = simOut.get('x_ori');
-x_r_u = simOut.get('x_red');
-y_est_err = simOut.get('estimation_error');
-tspan = simOut.get('tout');
